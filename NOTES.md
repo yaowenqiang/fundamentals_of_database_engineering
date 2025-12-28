@@ -20,3 +20,54 @@ row-oriented vs column-oriented
 + Compressing isn't efficient | Compress greatly
 + Aggregation isn't efficient | Amazing for Aggregation
 + efficient queries | Inefficient queries
+
+## index
+
++ seq table scan
++ index scan
++ bitmap index scan(postgres)
+
+### key vs non-key column indexes
+
+```sql
+
+explain (analyze,buffers) sql
+
+create index g_idx on students(g) include (id);
+
+vacuum (verbose) students;
+
+```
+
+## index scan vs index only scan
+
+```sql
+
+create index ig_idx on grades(id) include (name);
+```
+
+
+## best practises on creating indexes
+
+```
+create index on test(a);
+create index on test(b);
+
+
+explain analyze select c from test where a = 100 and b = 200;
+
+explain analyze select c from test where a = 100 or b = 200;
+
+create index on test(a,b);
+
+
+select * from t where f1 = 1 and f2 = 4 /*+ index[f1_idx] */
+
+
+create index concurrently g on grades(g);
+
+
+```
+
+
+
