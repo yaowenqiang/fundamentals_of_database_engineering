@@ -70,4 +70,16 @@ create index concurrently g on grades(g);
 ```
 
 
+## B-Trees
+
++ Balanced Data structure for fast traversal
++ B-Tree has nodes
++ In B-Tree of "M" detree some nodes can have (m) child nodes
++ Node has up to (m-1) elements
++ Each element has a key and a value
++ The value is usually data pointer to the row
++ Data pointer can point to primary key or tuple
++ Root noted, internal node and leaf nodes 
++ A node = disk page
+
 
