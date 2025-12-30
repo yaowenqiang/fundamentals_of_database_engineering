@@ -82,4 +82,26 @@ create index concurrently g on grades(g);
 + Root noted, internal node and leaf nodes 
 + A node = disk page
 
+## B+Tree
+
++ Exactly like B-Tree but only stores keys in internal notes
++ Values are only stored in leaf nodes
++ Internal nodes are smaller since they only store keys and they can fit more elements
++ Leaf nodes are "linked" so once you find a key you can find all values before and after that key
+
+
+## B+Tree & DBMS Considerations
+
++ Cost of leaf pointer（cheap)
++ 1 Node fits a DBMS page(most DBMS)
++ Can fit internal nodes easily in memory for fast traveral
++ Leaf nodes can live in data files in the heap
++ Most DBMS systems use B+Tree
+
+## Storage Cost in Postgres vs MySQL
+
++ B+Trees secondary index values can either point directly to the tuple(Postgres) or to the primary key(MySQL)
++ If the Primary key data type is expensive this can cause bloat in all secondary indexes for Database such as MySQL(InnoDB)
++ Leaf nodes in MySQL(InnoDB) contains the full row since its an LOT / clustered index
+
 
