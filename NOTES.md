@@ -105,3 +105,69 @@ create index concurrently g on grades(g);
 + Leaf nodes in MySQL(InnoDB) contains the full row since its an LOT / clustered index
 
 
+## Partition
+
+### What is Partition
+
+### Vertical vs Horizontal Partition
+
++ Horizontal Partitioning splits rows into partitions
+  + Range or list
++ Vertical partitioning splits columns partitions
+  + Large column(blob) that you can store in a slow access drive in its own tablespace
+
+### Partition Type
+
++ By Range
+  + Dates, ids(e.g. by logdate or customerid from to)
++ By List
+  + Discret values(e.g. state CA, AL, etc) or zip code
++ By Hash
+  + Hash functions(consistent hashing)
+
+### Horizontal Partition vs Sharding
+
++ HP splits big table into multiple tables in the same Database, client is sgnostic+ Sharding split big table into multiple tables across multiple database servers
++ HP table name changes(or schema)
++ Sharding everything is the same but server changes
+
+### demo
+
+```bash
+docker run --name pgmain -d -e POSTRES_PASSWORD=postgress postgres
+
+docker exec -it pgmain bash
+psql -U postgres
+
+```
+
+```sql
+create table grades_org(id serial not null, g int not null);
+
+insert into grades_org(g) select floor(random()*100) from generate_series(0, 10000000);
+
+create index grades_org_index in grades_org(g);
+
+explain analyze select count(*) from grades_org where g = 20;
+explain analyze select count(*) from grades_org where g between 20 and 35;
+create table grades_parts (id serial not null, g int not null) partition by range(g);
+create table g0035 (like grades_parts including indexes);
+create table g3560 (like grades_parts including indexes);
+create table g6080 (like grades_parts including indexes);
+create table g80100 (like grades_parts including indexes);
+
+alter table grades_parts attach partition g0035 for values from (0) to (35);
+alter table grades_parts attach partition g3560 for values from (35) to (60);
+alter table grades_parts attach partition g6080 for values from (60) to (80);
+alter table grades_parts attach partition g80100 for values from (80) to (100);
+
+insert into grades_parts select * from grades_org;
+
+
+
+
+
+
+```
+
+
