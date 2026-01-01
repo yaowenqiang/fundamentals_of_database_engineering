@@ -165,9 +165,31 @@ insert into grades_parts select * from grades_org;
 
 
 
+select pg_relation_size(oid), relname from pg_class order by pg_relation_size(oid) desc;
+
+show enable_partition_pruning(分区修剪);
+
+set enable_partition_pruning=off;
+
+explain select count(*)  from grades_parts where g=30;
+
 
 
 
 ```
+
+### Pros of Partitioning
+
++ Improve query performance when accessing a single partition
++ Sequential scan vs scattered index scan
++ Easy bulk loading(attach partition)
++ Archive old data that are barely accessed into cheap storage
+
+### Cons of Partitioning
+
++ Updates that move rows from a partition to another(slow or fail somethimes)
++ Inefficient queries could accidently scan all partitions resulting in slower performance
++ Schema changes can be challenging(DBMS could manage it though)
+
 
 
