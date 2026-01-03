@@ -391,4 +391,108 @@ docker run --name pstandby -p 5433:5423 -v /users/yaojack/rep/pstandby_data:/var
 > YugaByte DB
 > https://www.yugabyte.com/blog/a-busy-developers-guide-to-database-storage-engines-the-basics/
 
+```bash
+docker run --name ms1 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password -d mysql
+```
+
+## Database cursors
+
+```sql
+begin transaction;
+declare c cursor for select id from grades where g between 90 and 100;
+fetch c;
+fetch last;
+
+```
+
+### Server-side cursor and client-side cursor
+
+
+## NoSQL Databases
+
+### MongoDB
+
+#### clustered index
+
+#### clustered collection
+
+### Memcached
+
+#### Memory management
+
+##### In-memory key value store
+
++ An item consists of key and value
++ A key is a string(250 chars max)
++ The value can be any type (1MB configurable)
++ Keys have expiration date(TTL)
++ Everything is stored in memory
+
+##### Memory management
+
++ Memory allocations is random
++ Items freed/allocated causes graps
++ Results in memroy fragmentation
++ New items can no longer fit
++ Memory is allocated in pages(16MB configurable)
++ Pages are organized by slab classes
++ Pages consists of chunks of fixed size
++ Items are stored in chunks
++ Each slab classes has fixed chunk size
++ This avoids memory fragmentation
+
+#### LRU - Least recently used
+
++ Memory is limited
++ When an item is access its goes to the head
++ Items that aren't used 'may' get removed
++ LRU crawler/daemon Cache eviction
++ LRU cache per slab class
+
+
+#### Threading
+
++ One listener thread
++ For each connecion a new thread is created
++ Used to be one global lock
++ changed to a per-item lock
+
+> https://www.cloudflare.com/zh-cn/learning/ddos/memcached-ddos-attack/
+
+#### Read/Writes
+
+#### Locking
+
++ Used bo be one global lock
++ Changed to a per-item lock
++ Refcounting
+
+#### Distributed Cache
+
++ Memcached servers are unaware of each
++ Client is configured with a server pool
++ Clients do the Distribution through consistent hashing
++ Up to clients to reshuffle keys when adding/removing servers
+
+> https://www.mongodb.com/zh-cn/docs/manual/core/clustered-collections/
+
+
+```bash
+docker run --name mem1 -p 11211:11211 -d memcached
+docker run --name mem2 -p 11212:11211 -d memcached
+docker run --name mem3 -p 11213:11211 -d memcached
+
+telnet localhost 11211
+
+> stats
+> stats slabs
+> set foo 0 3600 2
+> hi
+
+> get foo
+> delete foo
+
+```
+
+
 
