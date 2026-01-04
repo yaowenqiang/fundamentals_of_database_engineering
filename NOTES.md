@@ -495,4 +495,36 @@ telnet localhost 11211
 ```
 
 
+### Redis
+
+#### In-memory, key-value store/NoSQL
+
++ Redis is key-value Store NoSQL Database
++ Key is string, value is pretty much anything
++ Redis is in memory first
++ Single-threaded(except when Durability is enabled)
+
+
+
+#### Optional Durability
+
++ Journaling(append only log AOP)
++ snapshotting
++ Both happen asynchronously in the background
+
+#### Transport protocol
+
++ Uses TCP
++ Request/response just like HTTP
++ Message format is RESP(REdis Serialization Protocol)
+
+#### PUB/SUB
+
+#### Replica/Clustering
+
++ Replication - One leader many follower model
++ Clustering - Shard data across multiple nodes
++ Hybrid
+
+> hana
 
