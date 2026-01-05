@@ -528,3 +528,13 @@ telnet localhost 11211
 
 > hana
 
+
+## Q&A
+
+### How does indexing a column with dumplicate values work
+
+
+> index selectivity
+
+> https://www.mydbops.com/blog/deduplication-of-b-tree-indexes-in-postgresql-13
+
